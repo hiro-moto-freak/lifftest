@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LIFF App</title>
+  <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+  <script>
+    // LIFFアプリ初期化
+    async function initializeLiff() {
+      await liff.init({ liffId: '2001598932-doRvm8b6' });
+      if (!liff.isLoggedIn()) {
+        liff.login();
+      }
+    }
+
+    // フォーム送信処理
+    async function submitForm() {
+      // フォームデータ取得
+      const formData = {
+        item1: document.getElementById('item1').value,
+        item2: document.getElementById('item2').value,
+        item3: document.getElementById('item3').value,
+        item4: document.getElementById('item4').value,
+        item5: document.getElementById('item5').value,
+        item6: document.getElementById('item6').value
+      };
+
+      // GASのエンドポイントにデータを送信
+      const response = await fetch('YOUR_GAS_ENDPOINT_URL', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      // 保存成功の場合、成功メッセージを表示
+      if (response.ok) {
+        alert('データが正常に保存されました。');
+      } else {
+        alert('データの保存に失敗しました。');
+      }
+    }
+
+    // LIFF初期化後、ボタンクリックでフォーム送信処理呼び出し
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeLiff();
+      document.getElementById('submitBtn').addEventListener('click', submitForm);
+    });
+  </script>
+</head>
+<body>
+  <h1>LIFF App Form</h1>
+  <form>
+    <label for="item1">Item 1:</label>
+    <select id="item1">
+      <option value="option1">Option 1</option>
+      <option value="option2">Option 2</option>
+      <option value="option3">Option 3</option>
+      <option value="option4">Option 4</option>
+      <option value="option5">Option 5</option>
+    </select>
+
+    <!-- 同様にItem 2からItem 6までのセレクトボックスを追加 -->
+    <label for="item2">Item 2:</label>
+    <select id="item2">
+      <option value="option1">Option 1</option>
+      <option value="option2">Option 2</option>
+      <option value="option3">Option 3</option>
+      <option value="option4">Option 4</option>
+      <option value="option5">Option 5</option>
+    </select>
+
+    <!-- Item 3 から Item 6 まで同様に続けてセレクトボックスを追加 -->
+
+    <button type="button" id="submitBtn">Submit</button>
+  </form>
+</body>
+</html>
